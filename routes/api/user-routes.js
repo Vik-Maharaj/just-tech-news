@@ -11,7 +11,17 @@ router.get('/:id', (req, res) => {});
 router.post('/', (req, res) => {});
 
 // PUT /api/users/1
-router.put('/:id', (req, res) => {});
+router.put('/:id', (req, res) => {
+      // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
+
+  // pass in req.body instead to only update what's passed through
+  User.update(req.body, {
+    individualHooks: true,
+    where: {
+      id: req.params.id
+    }
+  })
+});
 
 // DELETE /api/users/1
 router.delete('/:id', (req, res) => {});
