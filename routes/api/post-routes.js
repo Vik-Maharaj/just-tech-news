@@ -60,6 +60,11 @@ router.post('/', (req, res) => {
     });
 });
 
+// PUT /api/posts/upvote
+router.put('/upvote', (req, res) => {
+
+});
+
 router.put('/:id', (req, res) => {
   Post.update(
     {
