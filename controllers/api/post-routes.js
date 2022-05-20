@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
       'created_at',
       [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
     ],
-    order: [['created_at', 'DESC']],
     include: [
       {
         model: Comment,
@@ -85,7 +84,7 @@ router.post('/', (req, res) => {
   Post.create({
     title: req.body.title,
     post_url: req.body.post_url,
-    user_id: req.body.user_id
+    user_id: req.session.user_id
   })
     .then(dbPostData => res.json(dbPostData))
     .catch(err => {
@@ -96,6 +95,7 @@ router.post('/', (req, res) => {
 
 router.put('/upvote', (req, res) => {
   // custom static method created in models/Post.js
+<<<<<<< HEAD:routes/api/post-routes.js
 <<<<<<< HEAD
   Post.upvote(req.body, { Vote })
     .then(updatedPostData => res.json(updatedPostData))
@@ -104,6 +104,9 @@ router.put('/upvote', (req, res) => {
       res.status(400).json(err);
 =======
   Post.upvote(req.body, { Vote, Comment, User })
+=======
+  Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
+>>>>>>> develop:controllers/api/post-routes.js
     .then(updatedVoteData => res.json(updatedVoteData))
     .catch(err => {
       console.log(err);
@@ -137,6 +140,7 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
+  console.log('id', req.params.id);
   Post.destroy({
     where: {
       id: req.params.id
