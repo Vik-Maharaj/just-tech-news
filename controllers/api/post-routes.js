@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
-const { Post, User, Vote } = require('../../models');
+const { Post, User, Comment, Vote } = require('../../models');
 
 // get all users
 router.get('/', (req, res) => {
@@ -93,26 +93,6 @@ router.post('/', (req, res) => {
 
 router.put('/upvote', (req, res) => {
   // custom static method created in models/Post.js
-<<<<<<< HEAD
-<<<<<<< HEAD:routes/api/post-routes.js
-<<<<<<< HEAD
-  Post.upvote(req.body, { Vote })
-    .then(updatedPostData => res.json(updatedPostData))
-    .catch(err => {
-      console.log(err);
-      res.status(400).json(err);
-=======
-  Post.upvote(req.body, { Vote, Comment, User })
-=======
-  Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
->>>>>>> develop:controllers/api/post-routes.js
-    .then(updatedVoteData => res.json(updatedVoteData))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
->>>>>>> develop
-    });
-=======
   if (req.session) {
     Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
       .then(updatedVoteData => res.json(updatedVoteData))
@@ -121,7 +101,6 @@ router.put('/upvote', (req, res) => {
         res.status(500).json(err);
       });
   }
->>>>>>> develop
 });
 
 router.put('/:id', (req, res) => {
