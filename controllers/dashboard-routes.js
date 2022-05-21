@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
+const withAuth = require('../utils/auth');
 const { Post, User, Comment } = require('../models');
 
 router.get('/', (req, res) => {
@@ -39,6 +40,10 @@ router.get('/', (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
+});
+
+router.get('/', withAuth, (req, res) => {
+  // inner logic remains the same...
 });
 
 module.exports = router;
